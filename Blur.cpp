@@ -42,7 +42,7 @@ int Blur::BlurImage(const Mat& sourceImage, Mat& destinationImage, int kWidth, i
 
 						medianKernel[k] = pSrcData[index + row * ncol * nChannels + col * nChannels];
 					}
-					//xắp sếp các phần tử trong kernel 
+					//sắp xếp các phần tử trong kernel 
 					sort(medianKernel.begin(), medianKernel.end());
 					//lấy phần tử median ở chính giữa
 					pDstData[index] = medianKernel[kernelSize / 2];
