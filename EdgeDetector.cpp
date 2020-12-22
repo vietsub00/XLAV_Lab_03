@@ -11,7 +11,7 @@ int EdgeDetector::DetectEdge(const Mat& sourceImage, Mat& destinationImage, int 
 	case SOBEL: {
 
 		Mat dst1, dst2;
-		
+
 		int x = kHeight / 2;
 		for (int i = 0; i < kHeight; i++)
 		{
@@ -20,38 +20,42 @@ int EdgeDetector::DetectEdge(const Mat& sourceImage, Mat& destinationImage, int 
 				if (j != kWidth / 2)
 					kernel.push_back(x);
 				else
-					kernel.push_back(x*2);
+					kernel.push_back(x * 2);
 			}
 			x--;
-		} 
+		}
 		Convolution edtt1(kernel, kWidth, kHeight);
-		
+
 		kernel.resize(0);
-		
+
 		for (int i = 0; i < kHeight; i++)
 		{
-			for (int j = -kWidth/2; j <= kWidth/2; j++)
+			for (int j = -kWidth / 2; j <= kWidth / 2; j++)
 			{
 				if (i != kHeight / 2)
 					kernel.push_back(j);
 				else
-					kernel.push_back(j*2);
+					kernel.push_back(j * 2);
 			}
 		}
 		Convolution edtt2(kernel, kWidth, kHeight);
-		
+
 		edtt1.DoConvolution(sourceImage, dst1);
 		edtt2.DoConvolution(sourceImage, dst2);
 
-		destinationImage = Mat(sourceImage.rows, sourceImage.cols, CV_8UC1);
+		destinationImage = Mat(sourceImage.rows, sourceImage.cols, sourceImage.type());
 		uint8_t* pDstData1 = (uint8_t*)dst1.data;
 		uint8_t* pDstData2 = (uint8_t*)dst2.data;
 		uint8_t* pDstData = (uint8_t*)destinationImage.data;
 
-		for (int i = 0; i < sourceImage.rows; i++) {
-			for (int j = 0; j < sourceImage.cols; j++) {
-				int index = i * sourceImage.cols + j;
-				pDstData[index] = (pDstData1[index] + pDstData2[index]) / 2;
+		for (int cn = 0; cn < sourceImage.channels(); cn++)
+		{
+			for (int i = 0; i < sourceImage.rows; i++) {
+				for (int j = 0; j < sourceImage.cols; j++)
+				{
+					int index = i * sourceImage.cols * sourceImage.channels() + j * sourceImage.channels() + cn;
+					pDstData[index] = (pDstData1[index] + pDstData2[index]) / 2;
+				}
 			}
 		}
 
@@ -85,15 +89,19 @@ int EdgeDetector::DetectEdge(const Mat& sourceImage, Mat& destinationImage, int 
 		edtt1.DoConvolution(sourceImage, dst1);
 		edtt2.DoConvolution(sourceImage, dst2);
 
-		destinationImage = Mat(sourceImage.rows, sourceImage.cols, CV_8UC1);
+		destinationImage = Mat(sourceImage.rows, sourceImage.cols, sourceImage.type());
 		uint8_t* pDstData1 = (uint8_t*)dst1.data;
 		uint8_t* pDstData2 = (uint8_t*)dst2.data;
 		uint8_t* pDstData = (uint8_t*)destinationImage.data;
 
-		for (int i = 0; i < sourceImage.rows; i++) {
-			for (int j = 0; j < sourceImage.cols; j++) {
-				int index = i * sourceImage.cols + j;
-				pDstData[index] = (pDstData1[index] + pDstData2[index]) / 2;
+		for (int cn = 0; cn < sourceImage.channels(); cn++)
+		{
+			for (int i = 0; i < sourceImage.rows; i++) {
+				for (int j = 0; j < sourceImage.cols; j++)
+				{
+					int index = i * sourceImage.cols * sourceImage.channels() + j * sourceImage.channels() + cn;
+					pDstData[index] = (pDstData1[index] + pDstData2[index]) / 2;
+				}
 			}
 		}
 

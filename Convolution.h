@@ -4,6 +4,9 @@
 #include <iostream>
 #include <algorithm>
 #include <time.h>
+
+#define PI 3.141592653 
+
 using namespace cv;
 using namespace std;
 
@@ -26,7 +29,7 @@ public:
 	0: nếu tính thành công
 	1: nếu tính thất bại (không đọc được ảnh input,...)
 	*/
-	int DoConvolution(const Mat& sourceImage, Mat& destinationImage);	
+	int DoConvolution(const Mat& sourceImage, Mat& destinationImage);
 	Convolution();
 	Convolution(vector<float> kernel, int kWidth, int kHeight);
 	~Convolution();

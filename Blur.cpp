@@ -6,7 +6,7 @@ int Blur::BlurImage(const Mat& sourceImage, Mat& destinationImage, int kWidth, i
 
 	int kernelSize = kWidth * kHeight;
 	vector<float> kernel;
-	switch (method){
+	switch (method) {
 	case MEAN: { //Mean
 		for (int i = 0; i < kernelSize; i++) {
 			kernel.push_back(1);
@@ -32,7 +32,7 @@ int Blur::BlurImage(const Mat& sourceImage, Mat& destinationImage, int kWidth, i
 		for (int cn = 0; cn < nChannels; cn++) {
 			for (int i = 0; i < nrow; i++) {
 				for (int j = 0; j < ncol; j++) {
-					int index = i * ncol * nChannels + j * nChannels +cn;
+					int index = i * ncol * nChannels + j * nChannels + cn;
 					for (int k = 0; k < kernelSize; k++) {
 						int row = (k / kWidth) - (kHeight / 2);
 						int col = (k % kWidth) - (kWidth / 2);
@@ -42,7 +42,7 @@ int Blur::BlurImage(const Mat& sourceImage, Mat& destinationImage, int kWidth, i
 
 						medianKernel[k] = pSrcData[index + row * ncol * nChannels + col * nChannels];
 					}
-					//sắp xếp các phần tử trong kernel 
+					//xắp sếp các phần tử trong kernel 
 					sort(medianKernel.begin(), medianKernel.end());
 					//lấy phần tử median ở chính giữa
 					pDstData[index] = medianKernel[kernelSize / 2];
@@ -52,6 +52,22 @@ int Blur::BlurImage(const Mat& sourceImage, Mat& destinationImage, int kWidth, i
 		return 0;
 	}
 	case GAUSSIAN: { //Gaussian
+		float sigma = 1.0;
+		float r, s = 2.0 * sigma * sigma;
+		float sum = 0.0;
+
+		for (int x = -kHeight / 2; x <= kHeight / 2; x++)
+		{
+			for (int y = -kWidth / 2; y <= kWidth / 2; y++)
+			{
+				r = sqrt(x * x + y * y);
+				float temp = (exp(-(r * r) / s)) / (PI * s);
+				kernel.push_back(temp);
+				sum += temp;
+			}
+		}
+		for (int i = 0; i < kernelSize; i++)
+			kernel[i] /= sum;
 		break;
 	}
 	default:
@@ -71,4 +87,9 @@ Blur::Blur()
 
 Blur::~Blur()
 {
+}
+
+bool comp(int i, int j)
+{
+	return (i > j);
 }

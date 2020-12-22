@@ -21,9 +21,9 @@ int Convolution::DoConvolution(const Mat& sourceImage, Mat& destinationImage)
     int nChannels = sourceImage.channels();
     int _kernelSize = _kernelHeight * _kernelWidth;
 
-    if (sourceImage.channels()==1)
+    if (sourceImage.channels() == 1)
         destinationImage = Mat(nrow, ncol, CV_8UC1);
-    else 
+    else
         destinationImage = Mat(nrow, ncol, CV_8UC3);
 
     uint8_t* pSrcData = (uint8_t*)sourceImage.data;
