@@ -19,8 +19,7 @@ int Blur::BlurImage(const Mat& sourceImage, Mat& destinationImage, int kWidth, i
 		int nChannels = sourceImage.channels();
 		int kernelSize = kHeight * kWidth;
 
-		uchar* medianKernel;
-		medianKernel = new uchar(kernelSize);
+		vector<uchar> medianKernel(kernelSize);
 
 		if (sourceImage.channels() == 1)
 			destinationImage = Mat(nrow, ncol, CV_8UC1);
@@ -44,7 +43,7 @@ int Blur::BlurImage(const Mat& sourceImage, Mat& destinationImage, int kWidth, i
 						medianKernel[k] = pSrcData[index + row * ncol * nChannels + col * nChannels];
 					}
 					//xắp sếp các phần tử trong kernel 
-					sort(medianKernel, medianKernel + kernelSize - 1, comp);
+					sort(medianKernel.begin(), medianKernel.end());
 					//lấy phần tử median ở chính giữa
 					pDstData[index] = medianKernel[kernelSize / 2];
 				}
@@ -72,9 +71,4 @@ Blur::Blur()
 
 Blur::~Blur()
 {
-}
-
-bool comp(int i, int j)
-{
-	return (i>j);
 }
