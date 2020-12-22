@@ -6,17 +6,13 @@ int EdgeDetector::DetectEdge(const Mat& sourceImage, Mat& destinationImage, int 
 
 	int kernelsize = kHeight * kWidth;
 	vector<float> kernel;
-	switch (method)
-	{
+	switch (method){
 	case SOBEL: {
-
 		Mat dst1, dst2;
 
 		int x = kHeight / 2;
-		for (int i = 0; i < kHeight; i++)
-		{
-			for (int j = 0; j < kWidth; j++)
-			{
+		for (int i = 0; i < kHeight; i++){
+			for (int j = 0; j < kWidth; j++){
 				if (j != kWidth / 2)
 					kernel.push_back(x);
 				else
@@ -28,10 +24,8 @@ int EdgeDetector::DetectEdge(const Mat& sourceImage, Mat& destinationImage, int 
 
 		kernel.resize(0);
 
-		for (int i = 0; i < kHeight; i++)
-		{
-			for (int j = -kWidth / 2; j <= kWidth / 2; j++)
-			{
+		for (int i = 0; i < kHeight; i++){
+			for (int j = -kWidth / 2; j <= kWidth / 2; j++){
 				if (i != kHeight / 2)
 					kernel.push_back(j);
 				else
@@ -48,11 +42,9 @@ int EdgeDetector::DetectEdge(const Mat& sourceImage, Mat& destinationImage, int 
 		uint8_t* pDstData2 = (uint8_t*)dst2.data;
 		uint8_t* pDstData = (uint8_t*)destinationImage.data;
 
-		for (int cn = 0; cn < sourceImage.channels(); cn++)
-		{
+		for (int cn = 0; cn < sourceImage.channels(); cn++){
 			for (int i = 0; i < sourceImage.rows; i++) {
-				for (int j = 0; j < sourceImage.cols; j++)
-				{
+				for (int j = 0; j < sourceImage.cols; j++){
 					int index = i * sourceImage.cols * sourceImage.channels() + j * sourceImage.channels() + cn;
 					pDstData[index] = (pDstData1[index] + pDstData2[index]) / 2;
 				}
@@ -65,10 +57,8 @@ int EdgeDetector::DetectEdge(const Mat& sourceImage, Mat& destinationImage, int 
 		Mat dst1, dst2;
 
 		int x = kHeight / 2;
-		for (int i = 0; i < kHeight; i++)
-		{
-			for (int j = 0; j < kWidth; j++)
-			{
+		for (int i = 0; i < kHeight; i++){
+			for (int j = 0; j < kWidth; j++){
 				kernel.push_back(x);
 			}
 			x--;
@@ -77,10 +67,8 @@ int EdgeDetector::DetectEdge(const Mat& sourceImage, Mat& destinationImage, int 
 
 		kernel.resize(0);
 
-		for (int i = 0; i < kHeight; i++)
-		{
-			for (int j = -kWidth / 2; j <= kWidth / 2; j++)
-			{
+		for (int i = 0; i < kHeight; i++){
+			for (int j = -kWidth / 2; j <= kWidth / 2; j++){
 				kernel.push_back(j);
 			}
 		}
@@ -94,11 +82,9 @@ int EdgeDetector::DetectEdge(const Mat& sourceImage, Mat& destinationImage, int 
 		uint8_t* pDstData2 = (uint8_t*)dst2.data;
 		uint8_t* pDstData = (uint8_t*)destinationImage.data;
 
-		for (int cn = 0; cn < sourceImage.channels(); cn++)
-		{
+		for (int cn = 0; cn < sourceImage.channels(); cn++){
 			for (int i = 0; i < sourceImage.rows; i++) {
-				for (int j = 0; j < sourceImage.cols; j++)
-				{
+				for (int j = 0; j < sourceImage.cols; j++){
 					int index = i * sourceImage.cols * sourceImage.channels() + j * sourceImage.channels() + cn;
 					pDstData[index] = (pDstData1[index] + pDstData2[index]) / 2;
 				}
