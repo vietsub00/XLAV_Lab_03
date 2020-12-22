@@ -23,5 +23,3 @@ public:
 	Blur();
 	~Blur();
 };
-
-bool comp(int i, int j);
