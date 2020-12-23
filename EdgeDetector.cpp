@@ -10,15 +10,13 @@ int EdgeDetector::DetectEdge(const Mat& sourceImage, Mat& destinationImage, int 
 	case SOBEL: {
 		Mat dst1, dst2;
 
-		int x = kHeight / 2;
-		for (int i = 0; i < kHeight; i++){
+		for (int i = -kHeight/2; i <= kHeight/2; i++){
 			for (int j = 0; j < kWidth; j++){
 				if (j != kWidth / 2)
-					kernel.push_back(x);
+					kernel.push_back(-i);
 				else
-					kernel.push_back(x * 2);
+					kernel.push_back(-i * 2);
 			}
-			x--;
 		}
 		Convolution edtt1(kernel, kWidth, kHeight);
 
@@ -27,9 +25,9 @@ int EdgeDetector::DetectEdge(const Mat& sourceImage, Mat& destinationImage, int 
 		for (int i = 0; i < kHeight; i++){
 			for (int j = -kWidth / 2; j <= kWidth / 2; j++){
 				if (i != kHeight / 2)
-					kernel.push_back(j);
+					kernel.push_back(-j);
 				else
-					kernel.push_back(j * 2);
+					kernel.push_back(-j * 2);
 			}
 		}
 		Convolution edtt2(kernel, kWidth, kHeight);
@@ -56,12 +54,10 @@ int EdgeDetector::DetectEdge(const Mat& sourceImage, Mat& destinationImage, int 
 	case PREWITT: {
 		Mat dst1, dst2;
 
-		int x = kHeight / 2;
-		for (int i = 0; i < kHeight; i++){
+		for (int i = -kHeight / 2; i <= kHeight / 2; i++){
 			for (int j = 0; j < kWidth; j++){
-				kernel.push_back(x);
+				kernel.push_back(-i);
 			}
-			x--;
 		}
 		Convolution edtt1(kernel, kWidth, kHeight);
 
@@ -69,7 +65,7 @@ int EdgeDetector::DetectEdge(const Mat& sourceImage, Mat& destinationImage, int 
 
 		for (int i = 0; i < kHeight; i++){
 			for (int j = -kWidth / 2; j <= kWidth / 2; j++){
-				kernel.push_back(j);
+				kernel.push_back(-j);
 			}
 		}
 		Convolution edtt2(kernel, kWidth, kHeight);
