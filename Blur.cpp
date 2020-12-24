@@ -58,8 +58,8 @@ int Blur::BlurImage(const Mat& sourceImage, Mat& destinationImage, int kWidth, i
 
 		for (int x = -kHeight / 2; x <= kHeight / 2; x++) {
 			for (int y = -kWidth / 2; y <= kWidth / 2; y++) {
-				r = sqrt(x * x + y * y);
-				float temp = (exp((r * r) / s)) / (sqrt(2*PI) * sigma);
+				r = x * x + y * y;
+				float temp = (exp(-r / s)) / (sqrt(2 * PI) * sigma);
 				kernel.push_back(temp);
 				sum += temp;
 			}
