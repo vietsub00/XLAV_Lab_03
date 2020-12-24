@@ -6,7 +6,7 @@
 int main(int argc, char* argv[])
 {
 	Mat src, dst;
-
+	// Toán tử trung bình
 	if (!strcmp(argv[1], "--mean")) {
 		if (argc != 5) {
 			cout << "Wrong arguments" << endl;
@@ -21,6 +21,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
+	// Toán tử trung vị
 	else if (!strcmp(argv[1], "--median")) {
 		if (argc != 5) {
 			cout << "Wrong arguments" << endl;
@@ -35,6 +36,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
+	//Toán tử Gaussian
 	else if (!strcmp(argv[1], "--gauss")) {
 		if (argc != 5) {
 			cout << "Wrong arguments" << endl;
@@ -49,6 +51,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
+	//Toán tử Sobel
 	else if (!strcmp(argv[1], "--sobel")) {
 		if (argc != 3) {
 			cout << "Wrong arguments" << endl;
@@ -63,6 +66,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
+	//Toán tử Prewitt
 	else if (!strcmp(argv[1], "--prewitt")) {
 		if (argc != 3) {
 			cout << "Wrong arguments" << endl;
@@ -77,6 +81,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
+	//Toán tử Laplace
 	else if (!strcmp(argv[1], "--laplace")) {
 		if (argc != 3) {
 			cout << "Wrong arguments" << endl;
@@ -91,8 +96,10 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-
+	
+	//Hiển thị ảnh kết quả
 	imshow("Destination_Image", dst);
+	//Lưu ảnh kết quả
 	imwrite("Destination_Image.png", dst);
 	waitKey(0);
 
