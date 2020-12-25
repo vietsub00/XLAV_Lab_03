@@ -9,32 +9,34 @@ int EdgeDetector::DetectEdge(const Mat& sourceImage, Mat& destinationImage, int 
 	switch (method){
 	case SOBEL: {
 		Mat dst1, dst2;
-
+		//tạo kernel cho dst1
 		for (int i = -kHeight/2; i <= kHeight/2; i++){
 			for (int j = 0; j < kWidth; j++){
 				if (j != kWidth / 2)
 					kernel.push_back(-i);
 				else
-					kernel.push_back(-i * 2);
+					kernel.push_back(-i * 2);	//nếu j ở ngay giữa kernel (tương ứng với cột ở giữa) thì vị trí đó được nhân 2
 			}
 		}
-		Convolution edtt1(kernel, kWidth, kHeight);
+		Convolution edtt1(kernel, kWidth, kHeight);	//tạo biến cho dst1 có kernel vừa tạo
 
-		kernel.resize(0);
-
+		kernel.resize(0);	//cho kích thước kernel cục bộ trở về 0
+		//tạo kernel cho dst2
 		for (int i = 0; i < kHeight; i++){
 			for (int j = -kWidth / 2; j <= kWidth / 2; j++){
 				if (i != kHeight / 2)
 					kernel.push_back(-j);
 				else
-					kernel.push_back(-j * 2);
+					kernel.push_back(-j * 2);	//nếu i ở ngay giữa kernel (tương ứng với hàng ở giữa) thì vị trí đó được nhân 2
 			}
 		}
-		Convolution edtt2(kernel, kWidth, kHeight);
+		Convolution edtt2(kernel, kWidth, kHeight);	//tạo biến cho dst2 có kernel vừa tạo
 
 		edtt1.DoConvolution(sourceImage, dst1);
 		edtt2.DoConvolution(sourceImage, dst2);
-
+		
+		//Sau khi tìm được ảnh 1 (dst1) và ảnh 2 (dst2), ta lấy giá trị trung bình ở vị trí điểm ảnh tương ứng
+		//ở hai hình rồi gán cho ảnh mới ở vị trí điểm ảnh tương ứng
 		destinationImage = Mat(sourceImage.rows, sourceImage.cols, sourceImage.type());
 		uint8_t* pDstData1 = (uint8_t*)dst1.data;
 		uint8_t* pDstData2 = (uint8_t*)dst2.data;
@@ -53,26 +55,30 @@ int EdgeDetector::DetectEdge(const Mat& sourceImage, Mat& destinationImage, int 
 	}
 	case PREWITT: {
 		Mat dst1, dst2;
-
+		
+		//tạo kernel cho ảnh dst1
 		for (int i = -kHeight / 2; i <= kHeight / 2; i++){
 			for (int j = 0; j < kWidth; j++){
 				kernel.push_back(-i);
 			}
 		}
-		Convolution edtt1(kernel, kWidth, kHeight);
+		Convolution edtt1(kernel, kWidth, kHeight);	//tạo biến cho dst1 có kernel vừa tạo
 
-		kernel.resize(0);
-
+		kernel.resize(0);	//cho kernel cục bộ về kích thước 0
+		
+		//tạo kernel cho ảnh dst2
 		for (int i = 0; i < kHeight; i++){
 			for (int j = -kWidth / 2; j <= kWidth / 2; j++){
 				kernel.push_back(-j);
 			}
 		}
-		Convolution edtt2(kernel, kWidth, kHeight);
+		Convolution edtt2(kernel, kWidth, kHeight);	//tạo biến cho dst2 có kernel vừa tạo
 
 		edtt1.DoConvolution(sourceImage, dst1);
 		edtt2.DoConvolution(sourceImage, dst2);
-
+		
+		//Sau khi tìm được ảnh 1 (dst1) và ảnh 2 (dst2), ta lấy giá trị trung bình ở vị trí điểm ảnh tương ứng
+		//ở hai hình rồi gán cho ảnh mới ở vị trí điểm ảnh tương ứng
 		destinationImage = Mat(sourceImage.rows, sourceImage.cols, sourceImage.type());
 		uint8_t* pDstData1 = (uint8_t*)dst1.data;
 		uint8_t* pDstData2 = (uint8_t*)dst2.data;
