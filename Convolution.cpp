@@ -29,13 +29,15 @@ int Convolution::DoConvolution(const Mat& sourceImage, Mat& destinationImage)
     int kernelsum = 0; //kernelsum: tổng giá trị các phần tử trong kernel.
     for (int i = 0; i < _kernelSize; i++) kernelsum += _kernel[i];
     if (kernelsum == 0) kernelsum = 1;
-
+    
+    //Duyệt qua các pixel trong ảnh đích
     for (int cn = 0; cn < nChannels; cn++) {
         for (int i = 0; i < nrow; i++) {
             for (int j = 0; j < ncol; j++) {
                 int index = i * ncol * nChannels + j * nChannels + cn;
                 //sum: kết quả của phép tính tích chập
                 int sum = 0;
+                //duyệt qua các pixel trong ảnh nguồn tương ứng với vị trí trong kernel 
                 for (int k = 0; k < _kernelSize; k++) {
                     int row = (k / _kernelWidth) - (_kernelHeight / 2);
                     int col = (k % _kernelWidth) - (_kernelWidth / 2);
