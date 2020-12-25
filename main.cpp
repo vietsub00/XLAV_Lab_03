@@ -15,8 +15,17 @@ int main(int argc, char* argv[])
 		else {
 			src = imread(argv[2]);
 			Blur mean;
-			if (mean.BlurImage(src, dst, atoi(argv[3]), atoi(argv[4]), MEAN)) {
-				cout << "Something wrong." << endl;
+			int kWidth, kHeight;
+			kWidth = atoi(argv[3]);
+			kHeight = atoi(argv[4]);
+			if (kWidth % 2 && kHeight % 2) {
+				if (mean.BlurImage(src, dst, kWidth, kHeight, MEAN)) {
+					cout << "Something wrong." << endl;
+					return 0;
+				}
+			}
+			else {
+				cout << "Kernel dimensions must be odd numbers." << endl;
 				return 0;
 			}
 		}
@@ -30,8 +39,17 @@ int main(int argc, char* argv[])
 		else {
 			src = imread(argv[2]);
 			Blur median;	
-			if (median.BlurImage(src, dst, atoi(argv[3]), atoi(argv[4]), MEDIAN)) {
-				cout << "Something wrong." << endl;
+			int kWidth, kHeight;
+			kWidth = atoi(argv[3]);
+			kHeight = atoi(argv[4]);
+			if (kWidth % 2 && kHeight % 2) {
+				if (median.BlurImage(src, dst, kWidth, kHeight, MEDIAN)) {
+					cout << "Something wrong." << endl;
+					return 0;
+				}
+			}
+			else {
+				cout << "Kernel dimensions must be odd numbers." << endl;
 				return 0;
 			}
 		}
@@ -45,8 +63,17 @@ int main(int argc, char* argv[])
 		else {
 			src = imread(argv[2]);
 			Blur gauss;
-			if (gauss.BlurImage(src, dst, atoi(argv[3]), atoi(argv[4]), GAUSSIAN)) {
-				cout << "Something wrong." << endl;
+			int kWidth, kHeight;
+			kWidth = atoi(argv[3]);
+			kHeight = atoi(argv[4]);
+			if (kWidth % 2 && kHeight % 2) {
+				if (gauss.BlurImage(src, dst, kWidth, kHeight, GAUSSIAN)) {
+					cout << "Something wrong." << endl;
+					return 0;
+				}
+			}
+			else {
+				cout << "Kernel dimensions must be odd numbers." << endl;
 				return 0;
 			}
 		}
